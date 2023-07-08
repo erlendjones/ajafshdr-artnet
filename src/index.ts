@@ -1,17 +1,7 @@
 import chalk from "chalk";
 import { Command } from "commander";
-import { APILiveEdit } from "./api-liveedit";
-import { Entries, Entry } from "./api-liveedit-types";
 
-import { executeShot, getCompiledShots } from "./viz/viz";
-import { initLtcManager, onLTC } from "./lib-ltc";
-import {
-  getAudioDevices,
-  printAudioDevices,
-  validAudioDevice,
-} from "./printAudioDevices";
 import Debug from "./utils/debug";
-import { Shot } from "./viz/types";
 import { msToTc } from "./utils/msToTc";
 const figlet = require("figlet");
 const debug = Debug("CORE");
@@ -22,16 +12,6 @@ type SongTitle = string;
 
 const queue: SongTitle[] = [];
 const inFlight: SongTitle[] = [];
-let liveeditData: Entries;
-
-const fetchLiveEditData = async () => {
-  const data: Entries | Error = await APILiveEdit.fetchData();
-  if (data instanceof Error) {
-    debug(chalk.redBright("Error fetching data from LiveEdit"));
-    process.exit(1);
-  }
-  liveeditData = data;
-};
 
 console.log(figlet.textSync("ArtFS"));
 
